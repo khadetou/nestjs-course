@@ -1,3 +1,4 @@
+import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 import { CreateTaskDto } from './dto/create-task-dto';
 import { Task, TaskStatus } from './task.model';
 import { Injectable, NotFoundException } from '@nestjs/common';
@@ -47,14 +48,15 @@ export class TasksService {
     return task;
   }
 
-  updateTaskStatus(id: string, status: TaskStatus): Task {
+  updateTaskStatus(id: string, updateTaskStatusDto: UpdateTaskStatusDto): Task {
+    const { status } = updateTaskStatusDto;
     const task = this.getTaskById(id);
-    console.log(task);
     task.status = status;
     return task;
   }
 
   deleteTask(id: string): void {
+    const task = this.getTaskById(id);
     this.tasks = this.tasks.filter((task) => task.id !== id);
   }
 }
