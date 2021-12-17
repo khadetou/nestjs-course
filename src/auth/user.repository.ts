@@ -2,7 +2,10 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { User } from './user.entity';
 import { EntityRepository, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { ConflictException } from '@nestjs/common';
+import {
+  ConflictException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -22,7 +25,9 @@ export class UserRepository extends Repository<User> {
     } catch (error) {
       console.log(typeof error.code);
       if (error.code === '23505') {
-        throw new ConflictException();
+        throw new ConflictException('Username already exists');
+      } else {
+        throw new InternalServerErrorException();
       }
     }
   }
