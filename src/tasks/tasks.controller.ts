@@ -18,18 +18,12 @@ import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 import { Task } from './task.entity';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { AuthGuard } from '@nestjs/passport';
-import { ConfigService } from '@nestjs/config';
 
 @Controller('tasks')
 @UseGuards(AuthGuard())
 export class TasksController {
   private logger = new Logger('TasksController');
-  constructor(
-    private taskService: TasksService,
-    private configService: ConfigService,
-  ) {
-    console.log(configService.get('TEST_VALUE'));
-  }
+  constructor(private taskService: TasksService) {}
 
   @Get()
   getAllTasks(
