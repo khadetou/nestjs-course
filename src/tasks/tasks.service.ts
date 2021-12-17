@@ -52,12 +52,16 @@ export class TasksService {
   //     this.tasks.push(task);
   //     return task;
   //   }
-  //   updateTaskStatus(id: string, updateTaskStatusDto: UpdateTaskStatusDto): Task {
-  //     const { status } = updateTaskStatusDto;
-  //     const task = this.getTaskById(id);
-  //     task.status = status;
-  //     return task;
-  //   }
+  async updateTaskStatus(
+    id: string,
+    updateTaskStatusDto: UpdateTaskStatusDto,
+  ): Promise<Task> {
+    const { status } = updateTaskStatusDto;
+    const task = await this.getTaskById(id);
+    task.status = status;
+    await this.taskRespository.save(task);
+    return task;
+  }
   async deleteTask(id: string): Promise<void> {
     const result = await this.taskRespository.delete(id);
     if (result.affected === 0) {
